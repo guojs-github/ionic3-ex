@@ -1,0 +1,53 @@
+<meta charset="utf-8"/>
+<ion-header>
+	<ion-navbar no-border-bottom>
+		<ion-title>
+			本地功能演示
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+	<ion-card showWhen="android">
+		<ion-card-content>指纹演示</ion-card-content>
+		<ion-item>
+ 			<ion-label>	{{_fingerprintConfig.token}}</ion-label>		
+		</ion-item>		
+		<ion-item>
+			<button class="button" color="primary" ion-button block (click)="detectFingerprint()">指纹检测</button>
+			<button class="button" color="primary" ion-button block (click)="deleteFingerprint()">删除指纹</button>
+			<button class="button" color="primary" ion-button block (click)="createFingerprint()">创建指纹</button>
+			<button class="button" color="primary" ion-button block (click)="checkFingerprint()">认证指纹</button>
+		</ion-item>		
+	</ion-card>
+
+	<ion-card>
+		<ion-card-content>扫描二维码</ion-card-content>
+		<ion-item>
+			<button class="button" color="primary" ion-button block (click)="scanBarcode()">扫一扫</button>
+		</ion-item>		
+	 	<ion-item>
+<!-- 			
+			<div id="barcode" >				
+ 				<qr-code [value]="'All QR Code data goes here!'"></qr-code>
+ 
+ 				<qr-code [value]="_barcode"></qr-code>
+			</div>
+ -->			
+			<div id="barcode-description"><br>扫一扫上面的二维码图案</div>
+		</ion-item>
+	</ion-card>	
+	
+	<ion-card>
+		<ion-card-content>链接</ion-card-content>
+		<ion-item>
+			<button class="button" color="primary" ion-button block (click)="navigate('http://tech.sina.com.cn/')">
+				使用内置浏览器打开测试地址
+			</button>
+			<button class="button" color="primary" ion-button block (click)="cordovaNavigate('https://ionicframework.com/')">
+				使用cordova打开测试地址
+			</button>
+		</ion-item>		
+	</ion-card>
+</ion-content>
+
