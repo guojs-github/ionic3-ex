@@ -1,0 +1,14 @@
+<!-- 导航明细数据展示页-->
+<ion-header>
+	<ion-navbar>
+		<ion-title>
+			{{ _item.title }}
+		</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-icon [name]="'logo-' + _item.icon" [ngStyle]="{'color': _item.color}"></ion-icon>
+	{{ _item.description }}
+</ion-content>
+
