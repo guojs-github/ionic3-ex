@@ -1,0 +1,20 @@
+<meta charset="utf-8"/>
+<ion-header>
+	<ion-navbar>
+		<ion-title>Popovers</ion-title>
+		<ion-buttons end>
+			<button ion-button icon-only (click)="presentPopover($event)">
+				<ion-icon name="more"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content #popoverContent padding class="popover-page">
+	<div #popoverText class="text-to-change">
+		<div>丈夫只手把吴钩，意气高于百尺楼。 </div>
+		<div>一万年来谁著史? 三千里外欲封侯。 </div>
+		<div>定须捷足随途骥，那有闲情逐野鸥! </div>
+		<div>笑指芦沟桥畔路，有人从此到瀛洲。</div>
+	</div>
+</ion-content>

@@ -8,13 +8,13 @@
 	</ion-header>
 	<ion-content>
 		<ion-list>
-			<button ion-item menuClose > <!-- (click)="openPopoverDemoPage()" -->
+			<button ion-item menuClose (click)="openPopoverPage()">
 				Popover
 			</button>
-			<button ion-item menuClose > <!-- (click)="openSegmentsDemoPage()" -->
-				Segments 片段
+			<button ion-item menuClose (click)="openSegmentsPage()">
+				Segments
 			</button>
-			<button ion-item menuClose > <!-- (click)="openToolbarDemoPage()" -->
+			<button ion-item menuClose (click)="openToolbarPage()">
 				Toolbar 
 			</button>
 			<button ion-item menuClose (click)="openNativePage()">
