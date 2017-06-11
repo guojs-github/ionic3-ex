@@ -49,5 +49,25 @@
 			</button>
 		</ion-item>		
 	</ion-card>
+
+	<!-- 电池 -->
+	<ion-card>
+		<ion-card-content>电池</ion-card-content>
+			<ion-row>
+				<ion-col>
+					<ion-item>
+						<ion-label icon-left>
+							<ion-icon name="battery-full" color="primary"></ion-icon>
+							{{_batteryLevel}}%
+						</ion-label>
+					</ion-item>
+					<ion-item>
+						<ion-label icon-left>
+							<b>电池插入状态</b> {{_batteryIsPlugin}}
+						</ion-label>
+					</ion-item>
+			</ion-col>
+		</ion-row>
+	</ion-card>	
 </ion-content>
 

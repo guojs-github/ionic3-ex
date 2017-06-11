@@ -8,6 +8,7 @@ import { AndroidFingerprintAuth } from '@ionic-native/android-fingerprint-auth';
 import { Storage } from '@ionic/storage';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { BatteryStatus, BatteryStatusResponse } from '@ionic-native/battery-status';
 
 declare var cordova: any;
 
@@ -17,6 +18,7 @@ declare var cordova: any;
 		AndroidFingerprintAuth
 		, BarcodeScanner
 		, InAppBrowser
+		, BatteryStatus
 	]
 })
 export class NativePage {
@@ -30,6 +32,8 @@ export class NativePage {
 	};
 	private _fingerprintKey = "token";
 	private _barcode = "OK!RKTZ-20170531-000001";
+	private _batteryLevel:number = 100; // 电池状态
+	private _batteryIsPlugin: boolean = false; // 电池插入状态
 	
 	constructor(
 		public alertCtrl: AlertController // 消息窗口
@@ -37,8 +41,22 @@ export class NativePage {
 		, public storage: Storage // 存储对象
  		, public barcodeScanner: BarcodeScanner // 条码扫描
 		, public iab: InAppBrowser // 内置浏览器
+		, public batteryStatus: BatteryStatus // 电池状态
 	) {		
+		this.init();
+	}
+	
+	init() { // initialize
 		this.loadFingerprint(); // Read footprint
+		
+		// watch change in battery status
+		let subscription = this.batteryStatus.onChange().subscribe(
+			(status: BatteryStatusResponse) => {
+				console.log(status.level, status.isPlugged);
+				this._batteryLevel = status.level;
+				this._batteryIsPlugin = status.isPlugged;
+			}
+		);
 	}
 	
  	alert(message) { // 消息提示
