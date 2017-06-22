@@ -1,6 +1,11 @@
 <meta charset="utf-8"/>
 <ion-header>
-	<ion-navbar no-border-bottom>
+	<ion-navbar class="no-border-bottom" hideBackButton="true">
+		<ion-buttons left>
+			<button ion-button icon-only (click)="onBack()">
+				<ion-icon name="arrow-back"></ion-icon>
+			</button>
+		</ion-buttons>
 		<ion-title>
 			本地功能演示
 		</ion-title>
@@ -53,21 +58,28 @@
 	<!-- 电池 -->
 	<ion-card>
 		<ion-card-content>电池</ion-card-content>
-			<ion-row>
-				<ion-col>
-					<ion-item>
-						<ion-label icon-left>
-							<ion-icon name="battery-full" color="primary"></ion-icon>
-							{{_batteryLevel}}%
-						</ion-label>
-					</ion-item>
-					<ion-item>
-						<ion-label icon-left>
-							<b>电池插入状态</b> {{_batteryIsPlugin}}
-						</ion-label>
-					</ion-item>
+		<ion-row>
+			<ion-col>
+				<ion-item>
+					<ion-label icon-left>
+						<ion-icon name="battery-full" color="primary"></ion-icon>
+						{{_batteryLevel}}%
+					</ion-label>
+				</ion-item>
+				<ion-item>
+					<ion-label icon-left>
+						<b>电池插入状态</b> {{_batteryIsPlugin}}
+					</ion-label>
+				</ion-item>
 			</ion-col>
 		</ion-row>
+	</ion-card>	
+
+	<!-- 网络 -->
+	<ion-card>
+		<ion-card-content>Wifi网络
+		   <ion-icon name="wifi" [hidden]="!_connected"></ion-icon>
+		</ion-card-content>
 	</ion-card>	
 </ion-content>
 

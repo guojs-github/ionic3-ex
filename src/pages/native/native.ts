@@ -4,11 +4,15 @@
 */
 import { Component } from '@angular/core';
 import { AlertController} from 'ionic-angular';
-import { AndroidFingerprintAuth } from '@ionic-native/android-fingerprint-auth';
+import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { NavController } from 'ionic-angular';
+
+import { AndroidFingerprintAuth } from '@ionic-native/android-fingerprint-auth';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { BatteryStatus, BatteryStatusResponse } from '@ionic-native/battery-status';
+import { Network } from '@ionic-native/network';
 
 declare var cordova: any;
 
@@ -19,6 +23,7 @@ declare var cordova: any;
 		, BarcodeScanner
 		, InAppBrowser
 		, BatteryStatus
+		, Network
 	]
 })
 export class NativePage {
@@ -34,14 +39,23 @@ export class NativePage {
 	private _barcode = "OK!RKTZ-20170531-000001";
 	private _batteryLevel:number = 100; // 电池状态
 	private _batteryIsPlugin: boolean = false; // 电池插入状态
+	private _connected:boolean = false; // 网络连接状态
+
+	// Events
+	private _connect: any = null;
+	private _disconnect: any = null;
+	private _batteryStatus: any = null;
 	
 	constructor(
-		public alertCtrl: AlertController // 消息窗口
+		public nav: NavController // 导航控件
+		, public platform: Platform
+		, public alertCtrl: AlertController // 消息窗口
  		, public androidFingerprintAuth: AndroidFingerprintAuth // 指纹识别	
 		, public storage: Storage // 存储对象
  		, public barcodeScanner: BarcodeScanner // 条码扫描
 		, public iab: InAppBrowser // 内置浏览器
 		, public batteryStatus: BatteryStatus // 电池状态
+		, public network: Network // 网络对象
 	) {		
 		this.init();
 	}
@@ -50,13 +64,40 @@ export class NativePage {
 		this.loadFingerprint(); // Read footprint
 		
 		// watch change in battery status
-		let subscription = this.batteryStatus.onChange().subscribe(
+		this._batteryStatus = this.batteryStatus.onChange().subscribe(
 			(status: BatteryStatusResponse) => {
 				console.log(status.level, status.isPlugged);
 				this._batteryLevel = status.level;
 				this._batteryIsPlugin = status.isPlugged;
 			}
 		);
+		
+		// watch network
+		this._disconnect = this.network.onDisconnect().subscribe(() => {
+			this.alert("网络断开");
+			this._connected = false;
+		});
+		this._connect = this.network.onConnect().subscribe(() => {
+			this.alert("网络连接");
+			// this.alert(this.network.type);
+			if ("wifi" == this.network.type)
+				this._connected = true;				
+		});
+				
+		// Check connection status
+		this.checkConnection();		
+	}
+	
+	finalize() { // Release
+		this._batteryStatus.unsubscribe();
+		this._disconnect.unsubscribe();
+		this._connect.unsubscribe();
+	}
+	
+	onBack() { // 回退窗口
+		// alert("Back");
+		this.finalize();
+		this.nav.pop();
 	}
 	
  	alert(message) { // 消息提示
@@ -214,4 +255,10 @@ export class NativePage {
 	navigate(url) { // 内置浏览器	 
  		let browser = this.iab.create( url, "_blank", "location=yes");
 	} 
+	
+	checkConnection() { // 检查当前网络状态
+		// alert(this.network.type);
+		if ("wifi" == this.network.type)
+			this._connected = true;				
+	}	
 }
