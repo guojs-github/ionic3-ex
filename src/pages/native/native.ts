@@ -13,6 +13,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { BatteryStatus, BatteryStatusResponse } from '@ionic-native/battery-status';
 import { Network } from '@ionic-native/network';
+import { CallNumber } from '@ionic-native/call-number';
 
 declare var cordova: any;
 
@@ -24,6 +25,7 @@ declare var cordova: any;
 		, InAppBrowser
 		, BatteryStatus
 		, Network
+		, CallNumber
 	]
 })
 export class NativePage {
@@ -40,6 +42,7 @@ export class NativePage {
 	private _batteryLevel:number = 100; // 电池状态
 	private _batteryIsPlugin: boolean = false; // 电池插入状态
 	private _connected:boolean = false; // 网络连接状态
+	private _callNumber:string = "13621827571"; // 用于拨号的号码
 
 	// Events
 	private _connect: any = null;
@@ -56,8 +59,14 @@ export class NativePage {
 		, public iab: InAppBrowser // 内置浏览器
 		, public batteryStatus: BatteryStatus // 电池状态
 		, public network: Network // 网络对象
+		, public callNumber: CallNumber // 电话拨打对象
 	) {		
 		this.init();
+	}
+
+	ngOnDestroy() { // Finalyze
+		// alert("ngOnDestory");
+		this.finalize();
 	}
 	
 	init() { // initialize
@@ -94,12 +103,14 @@ export class NativePage {
 		this._connect.unsubscribe();
 	}
 	
-	onBack() { // 回退窗口
+	/*
+	onBack() { // 自定义按钮，用的回退窗口功能，用默认回退按钮，则没用了
 		// alert("Back");
 		this.finalize();
 		this.nav.pop();
 	}
-	
+	*/
+		
  	alert(message) { // 消息提示
 		let alert = this.alertCtrl.create({
 		  title: "提示",
@@ -261,4 +272,14 @@ export class NativePage {
 		if ("wifi" == this.network.type)
 			this._connected = true;				
 	}	
+	
+	dail() { // 通讯录拨打指定电话
+		this.callNumber.callNumber(this._callNumber, false)
+			.then(() => {
+				console.log('Launched dialer!');
+			})
+			.catch(() => {
+				console.log('Fail to launched dialer!')
+			});
+	}
 }

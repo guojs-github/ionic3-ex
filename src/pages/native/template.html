@@ -1,11 +1,13 @@
 <meta charset="utf-8"/>
 <ion-header>
-	<ion-navbar class="no-border-bottom" hideBackButton="true">
+	<ion-navbar class="no-border-bottom" hideBackButton="false">
+<!--
 		<ion-buttons left>
 			<button ion-button icon-only (click)="onBack()">
 				<ion-icon name="arrow-back"></ion-icon>
 			</button>
 		</ion-buttons>
+ -->	
 		<ion-title>
 			本地功能演示
 		</ion-title>
@@ -80,6 +82,18 @@
 		<ion-card-content>Wifi网络
 		   <ion-icon name="wifi" [hidden]="!_connected"></ion-icon>
 		</ion-card-content>
+	</ion-card>	
+
+	<!--  -->
+	<ion-card>
+		<ion-card-content>通讯录</ion-card-content>
+		<ion-item>
+			<ion-label floating>用户</ion-label>
+			<ion-input type="text" [value]="_callNumber"></ion-input>
+		</ion-item>
+		<ion-item>
+			<button ion-button block (click)="dail()">拨打电话</button>		
+		</ion-item>
 	</ion-card>	
 </ion-content>
 
