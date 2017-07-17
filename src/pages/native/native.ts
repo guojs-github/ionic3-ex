@@ -273,7 +273,7 @@ export class NativePage {
 			this._connected = true;				
 	}	
 	
-	dail() { // 通讯录拨打指定电话
+	dail() { // 通讯录拨打指定电话,Native SDK
 		this.callNumber.callNumber(this._callNumber, false)
 			.then(() => {
 				console.log('Launched dialer!');
@@ -282,4 +282,9 @@ export class NativePage {
 				console.log('Fail to launched dialer!')
 			});
 	}
+
+	dailNumber() { // 通讯录拨打指定电话，打开特定url，可能只有android有用
+		// this.alert(this._callNumber);
+		window.open("tel:" + this._callNumber);
+	}	
 }

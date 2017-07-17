@@ -88,11 +88,13 @@
 	<ion-card>
 		<ion-card-content>通讯录</ion-card-content>
 		<ion-item>
-			<ion-label floating>用户</ion-label>
-			<ion-input type="text" [value]="_callNumber"></ion-input>
+			<ion-input type="text" [(ngModel)]="_callNumber"></ion-input>
 		</ion-item>
 		<ion-item>
-			<button ion-button block (click)="dail()">拨打电话</button>		
+			<button ion-button block (click)="dail()">拨打电话(Native)(无用)</button>		
+		</ion-item>
+		<ion-item>
+			<button ion-button block (click)="dailNumber()">拨打电话(tel:XXX)</button>		
 		</ion-item>
 	</ion-card>	
 </ion-content>
